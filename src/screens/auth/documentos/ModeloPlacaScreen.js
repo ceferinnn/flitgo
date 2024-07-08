@@ -22,11 +22,7 @@ const ModeloPlacaScreen = ({ navigation }) => {
     setSubmitting(true)
 
     const files = selectedFiles.reduce((acc, current) => {
-      acc[current.type] = {
-        uri: current.uri,
-        name: current.fileName,
-        type: 'image/*'
-      }
+      acc[current.type] = current
       return acc
     }, {})
 

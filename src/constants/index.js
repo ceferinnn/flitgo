@@ -1,0 +1,1 @@
+export const API_URL = 'https://flitgo-backend.onrender.com';

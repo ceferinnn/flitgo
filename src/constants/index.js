@@ -1,1 +1,1 @@
-export const API_URL = 'https://flitgo-backend.onrender.com';
+export const API_URL = 'http://192.168.1.36:3000'

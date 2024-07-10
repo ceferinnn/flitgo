@@ -7,47 +7,54 @@ import MediaPicker from '../../../components/mediaPicker/MediaPicker'
 import Button from '../../../components/Button'
 
 const SoatScreen = ({ navigation }) => {
-	const { setRegistroData } = useContext(RegistroContext)
-	const [archivo, setArchivo] = useState(null)
+  const { setRegistroData, registroVehicle } = useContext(RegistroContext)
+  const [archivo, setArchivo] = useState(null)
 
-	const handleFileChange = file => {
-		setArchivo(file)
-	}
+  const handleFileChange = file => {
+    setArchivo(file)
+  }
 
-	const handleSubmit = async () => {
-		// Verificar si las fotos están cargadas
-		if (!archivo) {
-			Alert.alert('Error', 'Por favor, suba el pdf o imagen del soat.')
-			return
-		}
+  const handleSubmit = async () => {
+    // Verificar si las fotos están cargadas
+    if (!archivo) {
+      Alert.alert('Error', 'Por favor, suba el pdf o imagen del soat.')
+      return
+    }
 
-		try {
-			setRegistroData(prevData => ({
-				...prevData,
-				file_soat: archivo
-			}))
+    const file_soat = {
+      uri: archivo.uri,
+      name: archivo.name,
+      type: archivo.type
+    }
 
-			// Navega a la siguiente pantalla
-			navigation.navigate('ContinuarRegistro')
-		} catch (error) {
-			console.error('Error al guardar los datos del soat:', error)
-			Alert.alert('Error', 'Ocurrió un error. Por favor, inténtelo de nuevo.')
-		}
-	}
+    registroVehicle.append('file_soat', file_soat)
 
-	return (
-		<ContainerScroll>
-			<View style={styles.section}>
-				<Text style={styles.sectionTitle}>Suba un archivo PDF o imagen</Text>
-				<MediaPicker
-					onFileChange={file => handleFileChange(file)}
-					mode='document'
-				/>
-			</View>
+    /*  setRegistroData(prevData => ({
+      ...prevData,
+      file_soat: {
+        uri: archivo.uri,
+        name: archivo.name,
+        type: archivo.type
+      }
+    })) */
 
-			<Button title='Continuar' onPress={handleSubmit} primary />
-		</ContainerScroll>
-	)
+    // Navega a la siguiente pantalla
+    navigation.navigate('ContinuarRegistro')
+  }
+
+  return (
+    <ContainerScroll>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Suba un archivo PDF o imagen</Text>
+        <MediaPicker
+          onFileChange={file => handleFileChange(file)}
+          mode='document'
+        />
+      </View>
+
+      <Button title='Continuar' onPress={handleSubmit} primary />
+    </ContainerScroll>
+  )
 }
 
 export default SoatScreen

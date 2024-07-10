@@ -1,5 +1,5 @@
 // RegistroContext.js
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useState } from 'react'
 
 export const RegistroContext = createContext({
   registroData: {},
@@ -7,14 +7,11 @@ export const RegistroContext = createContext({
 })
 
 export const RegistroProvider = ({ children }) => {
-  const [registroData, setRegistroData] = useState({})
-
-  useEffect(() => {
-    console.log(registroData)
-  }, [registroData])
+  const [registroVehicle, setRegistroVehicle] = useState(new FormData())
+  const [registroDriver, setRegistroDriver] = useState(new FormData())
 
   return (
-    <RegistroContext.Provider value={{ registroData, setRegistroData }}>
+    <RegistroContext.Provider value={{ registroVehicle, registroDriver }}>
       {children}
     </RegistroContext.Provider>
   )

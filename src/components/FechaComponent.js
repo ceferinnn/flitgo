@@ -18,7 +18,7 @@ export const FechaComponent = ({
     setShowDatePicker(Platform.OS === 'ios') // Ocultar en iOS después de seleccionar
     if (selectedDate !== undefined) {
       setFieldValue(name, selectedDate)
-      setDateSelect(selectedDate)
+      setDateSelect(selectedDate.toISOString())
     }
   }
 
@@ -29,6 +29,7 @@ export const FechaComponent = ({
       month: '2-digit',
       day: '2-digit'
     })
+
     return formattedDate
   }
 

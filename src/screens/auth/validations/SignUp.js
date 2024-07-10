@@ -49,13 +49,13 @@ export const signUpValidationSchema = Yup.object().shape({
 export const initialValues = {
   sponsorship: '',
   nationality: 'Peruana',
-  user_name: 'Alex',
-  document_type: 'DNI',
-  document_number: '12345678',
+  user_name: 'cristhian31',
+  document_type: 'dni',
+  document_number: '12344594',
   birth_day: '',
   first_name: 'Juan',
   last_name: 'Pérez',
-  email: 'correo300@gmail.com',
+  email: 'correo61@gmail.com',
   number: '987654321',
   password: 'Jazz2017:v',
   confirmPassword: 'Jazz2017:v'

@@ -7,74 +7,92 @@ import MediaPicker from '../../../components/mediaPicker/MediaPicker'
 import Button from '../../../components/Button'
 
 const LicenciaScreen = ({ navigation }) => {
-	const { setRegistroData } = useContext(RegistroContext)
-	const [photo_license_frontal, setFotoLicenciaFrente] = useState(null)
-	const [photo_license_rear, setFotoLicenciaPosterior] = useState(null)
+  const { setRegistroData, registroVehicle, registroDriver } =
+    useContext(RegistroContext)
+  const [photo_license_rear, setFotoLicenciaPosterior] = useState(null)
+  const [photo_license_frontal, setphoto_license_frontal] = useState(null)
 
-	const handleFileChange = (file, type) => {
-		if (type === 'photo_license_frontal') {
-			setFotoLicenciaFrente(file)
-		} else if (type === 'photo_license_rear') {
-			setFotoLicenciaPosterior(file)
-		}
-	}
+  const handleFileChange = (file, setArchivo) => {
+    setArchivo(file)
+  }
 
-	const handleSubmit = async () => {
-		if (!photo_license_rear || !photo_license_frontal) {
-			Alert.alert('Error', 'Por favor, seleccione ambas fotos de la licencia.')
-			return
-		}
+  const handleSubmit = async () => {
+    if (!photo_license_rear) {
+      Alert.alert('Error', 'Por favor, seleccione ambas fotos de la licencia.')
+      return
+    }
 
-		try {
-			const licenciaData = {
-				photo_license_rear,
-				photo_license_frontal
-			}
+    const licence_rear = {
+      uri: photo_license_rear.uri,
+      name: photo_license_rear.fileName,
+      type: 'image/jpeg'
+    }
 
-			setRegistroData(prevData => ({
-				...prevData,
-				...licenciaData
-			}))
-			navigation.navigate('ContinuarRegistro')
-		} catch (error) {
-			console.error('Error al guardar los datos de la licencia:', error)
-			Alert.alert('Error', 'Ocurrió un error. Por favor, inténtelo de nuevo.')
-		}
-	}
+    const licence_frontal = {
+      uri: photo_license_frontal.uri,
+      name: photo_license_frontal.fileName,
+      type: 'image/jpeg'
+    }
 
-	return (
-		<ContainerScroll>
-			<View style={styles.section}>
-				<Text style={styles.sectionTitle}>Cara frontal</Text>
-				<MediaPicker
-					onFileChange={file => handleFileChange(file, 'photo_license_frontal')}
-					mode='image'
-				/>
-				{photo_license_frontal && (
-					<Image
-						source={{ uri: photo_license_frontal.uri }}
-						style={styles.fotoVehiculo}
-					/>
-				)}
-			</View>
+    registroVehicle.append('photo_licence_rear', licence_rear)
+    registroDriver.append('photo_licence_rear', licence_rear)
+    registroDriver.append('photo_license_frontal', licence_frontal)
+    /* const licenciaData = {
+      photo_license_rear: {
+        uri: photo_license_rear.uri,
+        name: photo_license_rear.fileName,
+        type: 'image/jpeg'
+      },
+      photo_license_frontal: {
+        uri: photo_license_frontal.uri,
+        name: photo_license_frontal.fileName,
+        type: 'image/jpeg'
+      }
+    }
 
-			<View style={styles.section}>
-				<Text style={styles.sectionTitle}>Cara posterior</Text>
-				<MediaPicker
-					onFileChange={file => handleFileChange(file, 'photo_license_rear')}
-					mode='image'
-				/>
-				{photo_license_rear && (
-					<Image
-						source={{ uri: photo_license_rear.uri }}
-						style={styles.fotoVehiculo}
-					/>
-				)}
-			</View>
+    setRegistroData(prevData => ({
+      ...prevData,
+      ...licenciaData
+    })) */
+    navigation.navigate('ContinuarRegistro')
+  }
 
-			<Button title='Continuar' onPress={handleSubmit} primary />
-		</ContainerScroll>
-	)
+  return (
+    <ContainerScroll>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Cara Frontal</Text>
+        <MediaPicker
+          onFileChange={file =>
+            handleFileChange(file, setphoto_license_frontal)
+          }
+          mode='image'
+        />
+        {photo_license_frontal && (
+          <Image
+            source={{ uri: photo_license_frontal.uri }}
+            style={styles.fotoVehiculo}
+          />
+        )}
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Cara Trasera</Text>
+        <MediaPicker
+          onFileChange={file =>
+            handleFileChange(file, setFotoLicenciaPosterior)
+          }
+          mode='image'
+        />
+        {photo_license_rear && (
+          <Image
+            source={{ uri: photo_license_rear.uri }}
+            style={styles.fotoVehiculo}
+          />
+        )}
+      </View>
+
+      <Button title='Continuar' onPress={handleSubmit} primary />
+    </ContainerScroll>
+  )
 }
 
 export default LicenciaScreen

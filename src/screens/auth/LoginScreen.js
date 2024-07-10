@@ -55,7 +55,7 @@ const LoginScreen = () => {
       />
 
       <Formik
-        initialValues={{ email: 'correo400@gmail.com', password: 'Jazz2017:v' }}
+        initialValues={{ email: 'correo102@gmail.com', password: 'Jazz2017:v' }}
         validationSchema={validationSchema}
         onSubmit={login}>
         {({

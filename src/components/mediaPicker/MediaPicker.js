@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import ImagePickerComponent from './ImagePickerComponent';
 import DocumentPickerComponent from './DocumentPickerComponent';
 import ImagePreviewComponent from './ImagePreviewComponent';

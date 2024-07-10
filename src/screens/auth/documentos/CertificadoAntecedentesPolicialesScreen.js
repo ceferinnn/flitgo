@@ -7,51 +7,55 @@ import MediaPicker from '../../../components/mediaPicker/MediaPicker'
 import Button from '../../../components/Button'
 
 const CertificadoAntecedentesPolicialesScreen = ({ navigation }) => {
-	const { setRegistroData } = useContext(RegistroContext)
-	const [archivo, setArchivo] = useState(null)
+  const { setRegistroData, registroDriver } = useContext(RegistroContext)
+  const [archivo, setArchivo] = useState(null)
 
-	const handleFileChange = file => {
-		setArchivo(file)
-	}
+  const handleFileChange = file => {
+    setArchivo(file)
+  }
 
-	const handleSubmit = async () => {
-		if (!archivo) {
-			Alert.alert(
-				'Error',
-				'Por favor, suba el pdf o imagen de los antecedentes policiales.'
-			)
-			return
-		}
+  const handleSubmit = async () => {
+    if (!archivo) {
+      Alert.alert(
+        'Error',
+        'Por favor, suba el pdf o imagen de los antecedentes policiales.'
+      )
+      return
+    }
 
-		try {
-			setRegistroData(prevData => ({
-				...prevData,
-				file_police_records: archivo
-			}))
+    const imageData = {
+      uri: archivo.uri,
+      name: archivo.name,
+      type: archivo.type
+    }
 
-			navigation.navigate('ContinuarRegistro')
-		} catch (error) {
-			console.error(
-				'Error al guardar los datos de los antecedentes policiales:',
-				error
-			)
-			Alert.alert('Error', 'Ocurrió un error. Por favor, inténtelo de nuevo.')
-		}
-	}
+    registroDriver.append('file_police_records', imageData)
 
-	return (
-		<ContainerScroll>
-			<View style={styles.section}>
-				<Text style={styles.sectionTitle}>Suba un archivo PDF o imagen</Text>
-				<MediaPicker
-					onFileChange={file => handleFileChange(file)}
-					mode='document'
-				/>
-			</View>
+    /* setRegistroData(prevData => ({
+      ...prevData,
+      file_police_records: {
+        uri: archivo.uri,
+        name: archivo.name,
+        type: archivo.type
+      }
+    })) */
 
-			<Button title='Continuar' onPress={handleSubmit} primary />
-		</ContainerScroll>
-	)
+    navigation.navigate('ContinuarRegistro')
+  }
+
+  return (
+    <ContainerScroll>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Suba un archivo PDF o imagen</Text>
+        <MediaPicker
+          onFileChange={file => handleFileChange(file)}
+          mode='document'
+        />
+      </View>
+
+      <Button title='Continuar' onPress={handleSubmit} primary />
+    </ContainerScroll>
+  )
 }
 
 export default CertificadoAntecedentesPolicialesScreen

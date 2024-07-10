@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { API_URL } from '../constants'
 import { Alert } from 'react-native'
+import axios from 'axios'
 
 export const AuthContext = createContext()
 
@@ -27,17 +28,10 @@ export const AuthProvider = ({ children }) => {
     try {
       const body = { user: values.email, password: values.password }
 
-      const response = await fetch(API_URL + '/api/auth/login/delivery', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      })
-
-      const json = await response.json()
-
-      console.log(json)
+      const { data: json } = await axios.post(
+        API_URL + '/api/auth/login/delivery',
+        body
+      )
 
       const { data } = json
 
@@ -60,18 +54,15 @@ export const AuthProvider = ({ children }) => {
         Alert.alert('Ups', 'Error inesperado')
       }
 
-      const response = await fetch(
+      const { data: json } = await axios.get(
         API_URL + '/api/user/delivery/states-requirements/',
         {
-          method: 'GET',
           headers: {
-            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
           }
         }
       )
 
-      const json = await response.json()
       const { data } = json
 
       setUser(data?.user_delivery)

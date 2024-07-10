@@ -7,84 +7,98 @@ import MediaPicker from '../../../components/mediaPicker/MediaPicker'
 import Button from '../../../components/Button'
 
 const DocumentoIdentidadScreen = ({ navigation }) => {
-	const { setRegistroData } = useContext(RegistroContext)
-	const [photo_document_identity_frontal, setFotoDocumentoFrente] =
-		useState(null)
-	const [photo_document_identity_rear, setFotoDocumentoPosterior] =
-		useState(null)
+  const { setRegistroData, registroDriver } = useContext(RegistroContext)
+  const [photo_document_identity_frontal, setFotoDocumentoFrente] =
+    useState(null)
+  const [photo_document_identity_rear, setFotoDocumentoPosterior] =
+    useState(null)
 
-	const handleFileChange = (file, type) => {
-		if (type === 'photo_document_identity_frontal') {
-			setFotoDocumentoFrente(file)
-		} else if (type === 'photo_document_identity_rear') {
-			setFotoDocumentoPosterior(file)
-		}
-	}
+  const handleFileChange = (file, type) => {
+    if (type === 'photo_document_identity_frontal') {
+      setFotoDocumentoFrente(file)
+    } else if (type === 'photo_document_identity_rear') {
+      setFotoDocumentoPosterior(file)
+    }
+  }
 
-	const handleSubmit = async () => {
-		// Verificar si las fotos están cargadas
-		if (!photo_document_identity_frontal || !photo_document_identity_rear) {
-			Alert.alert('Error', 'Por favor, seleccione ambas fotos del documento.')
-			return
-		}
+  const handleSubmit = async () => {
+    // Verificar si las fotos están cargadas
+    if (!photo_document_identity_frontal || !photo_document_identity_rear) {
+      Alert.alert('Error', 'Por favor, seleccione ambas fotos del documento.')
+      return
+    }
 
-		try {
-			// Combine los datos en un solo objeto
-			const documentoData = {
-				photo_document_identity_frontal,
-				photo_document_identity_rear
-			}
+    const frontal = {
+      uri: photo_document_identity_frontal.uri,
+      name: photo_document_identity_frontal.fileName,
+      type: 'image/jpeg'
+    }
+    const reversa = {
+      uri: photo_document_identity_rear.uri,
+      name: photo_document_identity_rear.fileName,
+      type: 'image/jpeg'
+    }
 
-			setRegistroData(prevData => ({
-				...prevData,
-				...documentoData
-			}))
+    registroDriver.append('photo_document_identity_frontal', frontal)
+    registroDriver.append('photo_document_identity_rear', reversa)
 
-			// Navega a la siguiente pantalla
-			navigation.navigate('ContinuarRegistro')
-		} catch (error) {
-			console.error('Error al guardar los datos del documento:', error)
-			Alert.alert('Error', 'Ocurrió un error. Por favor, inténtelo de nuevo.')
-		}
-	}
+    /*  const documentoData = {
+      photo_document_identity_frontal: {
+        uri: photo_document_identity_frontal.uri,
+        name: photo_document_identity_frontal.fileName,
+        type: 'image/jpeg'
+      },
+      photo_document_identity_rear: {
+        uri: photo_document_identity_rear.uri,
+        name: photo_document_identity_rear.fileName,
+        type: 'image/jpeg'
+      }
+    }
 
-	return (
-		<ContainerScroll>
-			<View style={styles.section}>
-				<Text style={styles.sectionTitle}>Cara frontal</Text>
-				<MediaPicker
-					onFileChange={file =>
-						handleFileChange(file, 'photo_document_identity_frontal')
-					}
-					mode='image'
-				/>
-				{photo_document_identity_frontal && (
-					<Image
-						source={{ uri: photo_document_identity_frontal.uri }}
-						style={styles.fotoVehiculo}
-					/>
-				)}
-			</View>
+    setRegistroData(prevData => ({
+      ...prevData,
+      ...documentoData
+    })) */
+    navigation.navigate('ContinuarRegistro')
+  }
 
-			<View style={styles.section}>
-				<Text style={styles.sectionTitle}>Cara posterior</Text>
-				<MediaPicker
-					onFileChange={file =>
-						handleFileChange(file, 'photo_document_identity_rear')
-					}
-					mode='image'
-				/>
-				{photo_document_identity_rear && (
-					<Image
-						source={{ uri: photo_document_identity_rear.uri }}
-						style={styles.fotoVehiculo}
-					/>
-				)}
-			</View>
+  return (
+    <ContainerScroll>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Cara frontal</Text>
+        <MediaPicker
+          onFileChange={file =>
+            handleFileChange(file, 'photo_document_identity_frontal')
+          }
+          mode='image'
+        />
+        {photo_document_identity_frontal && (
+          <Image
+            source={{ uri: photo_document_identity_frontal.uri }}
+            style={styles.fotoVehiculo}
+          />
+        )}
+      </View>
 
-			<Button title='Continuar' onPress={handleSubmit} primary />
-		</ContainerScroll>
-	)
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Cara posterior</Text>
+        <MediaPicker
+          onFileChange={file =>
+            handleFileChange(file, 'photo_document_identity_rear')
+          }
+          mode='image'
+        />
+        {photo_document_identity_rear && (
+          <Image
+            source={{ uri: photo_document_identity_rear.uri }}
+            style={styles.fotoVehiculo}
+          />
+        )}
+      </View>
+
+      <Button title='Continuar' onPress={handleSubmit} primary />
+    </ContainerScroll>
+  )
 }
 
 export default DocumentoIdentidadScreen

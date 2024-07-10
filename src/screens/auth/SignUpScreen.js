@@ -16,47 +16,46 @@ import PickerField from '../../components/forms/PickerField'
 import * as validations from './validations/SignUp'
 import { API_URL } from '../../constants'
 import { FechaComponent } from '../../components/FechaComponent'
+import axios, { AxiosError } from 'axios'
 
 const SignUpScreen = ({ navigation }) => {
   const [isChecked, setIsChecked] = useState(false)
   const [showDatePicker, setShowDatePicker] = useState(false)
 
   const handleSubmit = async (values, { setSubmitting }) => {
+    const form = {
+      email: values.email,
+      user_name: values.user_name,
+      password: values.password,
+      first_name: values.first_name,
+      last_name: values.last_name,
+      document_type: values.document_type,
+      document_number: values.document_number,
+      number_prefix: '+51',
+      number: values.number,
+      nationality: values.nationality,
+      birth_day: values.birth_day
+    }
+    if (String(values.sponsorship).length >= 1) {
+      form.sponsorship = values.sponsorship
+    }
     try {
       setSubmitting(true)
-      const form = {
-        user_name: values.user_name,
-        email: values.email,
-        password: values.password,
-        first_name: values.first_name,
-        last_name: values.last_name,
-        document_type: values.document_type,
-        document_number: values.document_number,
-        number_prefix: '+51',
-        number: values.number,
-        nationality: values.nationality,
-        birth_day: values.birth_day,
-        sponsorship: values.sponsorship || null
-      }
+      const { status } = await axios.post(
+        API_URL + '/api/auth/register/delivery',
+        form
+      )
 
-      const response = await fetch(API_URL + '/api/auth/register/delivery', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(form)
-      })
-
-      if (response.ok) {
+      if (status === 201) {
         navigation.navigate('Login')
       } else {
         setSubmitting(false)
         Alert.alert('Error', 'Ocurrió un error inesperado. Inténtalo de nuevo.')
       }
     } catch (error) {
-      console.log(error)
+      console.log(error.response.data)
       setSubmitting(false)
-      Alert.alert('Error', 'Ocurrió un error inesperado. Inténtalo de nuevo.')
+      Alert.alert('Error', `Ocurrió un error inesperado. Inténtalo de nuevo`)
     } finally {
       setSubmitting(false)
     }

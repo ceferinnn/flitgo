@@ -7,50 +7,57 @@ import MediaPicker from '../../../components/mediaPicker/MediaPicker'
 import Button from '../../../components/Button'
 
 const RevisionTecnicaScreen = ({ navigation }) => {
-	const { setRegistroData } = useContext(RegistroContext)
-	const [archivo, setArchivo] = useState(null)
+  const { setRegistroData, registroVehicle } = useContext(RegistroContext)
+  const [archivo, setArchivo] = useState(null)
 
-	const handleFileChange = file => {
-		setArchivo(file)
-	}
+  const handleFileChange = file => {
+    setArchivo(file)
+  }
 
-	const handleSubmit = async () => {
-		// Verificar si las fotos están cargadas
-		if (!archivo) {
-			Alert.alert(
-				'Error',
-				'Por favor, suba el pdf o imagen de la revisión técnica.'
-			)
-			return
-		}
+  const handleSubmit = async () => {
+    // Verificar si las fotos están cargadas
+    if (!archivo) {
+      Alert.alert(
+        'Error',
+        'Por favor, suba el pdf o imagen de la revisión técnica.'
+      )
+      return
+    }
 
-		try {
-			setRegistroData(prevData => ({
-				...prevData,
-				photo_thecnical_review: archivo
-			}))
+    const photo = {
+      uri: archivo.uri,
+      name: archivo.name,
+      type: archivo.type
+    }
 
-			// Navega a la siguiente pantalla
-			navigation.navigate('ContinuarRegistro')
-		} catch (error) {
-			console.error('Error al guardar los datos de la revisión técnica:', error)
-			Alert.alert('Error', 'Ocurrió un error. Por favor, inténtelo de nuevo.')
-		}
-	}
+    registroVehicle.append('photo_thecnical_review', photo)
 
-	return (
-		<ContainerScroll>
-			<View style={styles.section}>
-				<Text style={styles.sectionTitle}>Suba un archivo PDF o imagen</Text>
-				<MediaPicker
-					onFileChange={file => handleFileChange(file)}
-					mode='document'
-				/>
-			</View>
+    /*   setRegistroData(prevData => ({
+      ...prevData,
+      photo_thecnical_review: {
+        uri: archivo.uri,
+        name: archivo.name,
+        type: archivo.type
+      }
+    })) */
 
-			<Button title='Continuar' onPress={handleSubmit} primary />
-		</ContainerScroll>
-	)
+    // Navega a la siguiente pantalla
+    navigation.navigate('ContinuarRegistro')
+  }
+
+  return (
+    <ContainerScroll>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Suba un archivo PDF o imagen</Text>
+        <MediaPicker
+          onFileChange={file => handleFileChange(file)}
+          mode='document'
+        />
+      </View>
+
+      <Button title='Continuar' onPress={handleSubmit} primary />
+    </ContainerScroll>
+  )
 }
 
 export default RevisionTecnicaScreen

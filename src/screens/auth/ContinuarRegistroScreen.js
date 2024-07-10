@@ -56,7 +56,7 @@ const ContinuarRegistroScreen = ({ navigation }) => {
         return
       }
 
-      const response = await axios.post(
+      /*       const response = await axios.post(
         API_URL + '/api/user/delivery/vehicle',
         registroDriver,
         {
@@ -66,16 +66,16 @@ const ContinuarRegistroScreen = ({ navigation }) => {
           }
         }
       )
-      console.log(response)
+      console.log(response) */
 
-      /*  await Promise.allSettled([
-        axios.post(API_URL + '/api/user/delivery/vehicle', formVehicle, {
+      await Promise.allSettled([
+        axios.post(API_URL + '/api/user/delivery/vehicle', registroVehicle, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data'
           }
         }),
-        axios.post(API_URL + '/api/user/delivery/information', formDriver, {
+        axios.post(API_URL + '/api/user/delivery/information', registroDriver, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data'
@@ -92,7 +92,7 @@ const ContinuarRegistroScreen = ({ navigation }) => {
             }
           })
         )
-        .catch(err => console.log(err)) */
+        .catch(err => console.log(err))
     } catch (error) {
       const hasError = handleAxiosError({ error })
       console.log(hasError)

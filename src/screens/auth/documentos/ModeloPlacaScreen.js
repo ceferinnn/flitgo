@@ -30,17 +30,17 @@ const ModeloPlacaScreen = ({ navigation }) => {
     const vehicle_frontal = {
       uri: photo_vehicle_frontal.uri,
       name: photo_vehicle_frontal.fileName,
-      type: 'image/jpeg'
+      type: photo_vehicle_frontal.type
     }
     const vehicle_rear = {
       uri: photo_vehicle_rear.uri,
       name: photo_vehicle_rear.fileName,
-      type: 'image/jpeg'
+      type: photo_vehicle_rear.type
     }
     const useful = {
       uri: photo_vehicle_useful_space.uri,
       name: photo_vehicle_useful_space.fileName,
-      type: 'image/jpeg'
+      type: photo_vehicle_useful_space.type
     }
 
     registroVehicle.append('photo_vehicle_frontal', vehicle_frontal)
@@ -65,7 +65,7 @@ const ModeloPlacaScreen = ({ navigation }) => {
     <ContainerScroll>
       <FormikForm
         initialValues={validations.initialValues}
-        validationSchema={validations.continuarRegistroValidationSchema}
+        // validationSchema={validations.continuarRegistroValidationSchema}
         onSubmit={handleSubmit}
         style={styles.form}>
         {({ handleSubmit, isSubmitting }) => (

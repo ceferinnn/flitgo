@@ -12,6 +12,7 @@ import { FechaComponent } from '../../components/FechaComponent'
 import { API_URL } from '../../constants'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
+import { handleAxiosError } from '../../utils/errors'
 
 const ContinuarRegistroScreen = ({ navigation }) => {
   const { registroVehicle, registroDriver } = useContext(RegistroContext)
@@ -55,7 +56,7 @@ const ContinuarRegistroScreen = ({ navigation }) => {
         return
       }
 
-      const { data, status } = await axios.post(
+      const response = await axios.post(
         API_URL + '/api/user/delivery/vehicle',
         registroDriver,
         {
@@ -65,7 +66,7 @@ const ContinuarRegistroScreen = ({ navigation }) => {
           }
         }
       )
-      console.log({ data, status })
+      console.log(response)
 
       /*  await Promise.allSettled([
         axios.post(API_URL + '/api/user/delivery/vehicle', formVehicle, {
@@ -93,7 +94,8 @@ const ContinuarRegistroScreen = ({ navigation }) => {
         )
         .catch(err => console.log(err)) */
     } catch (error) {
-      console.log(JSON.stringify(error))
+      const hasError = handleAxiosError({ error })
+      console.log(hasError)
       Alert.alert('Error', 'Ocurrió un error inesperado. Inténtalo de nuevo.')
     } finally {
       setSubmitting(false)
@@ -104,7 +106,7 @@ const ContinuarRegistroScreen = ({ navigation }) => {
     <ScrollView contentContainerStyle={styles.container}>
       <FormikForm
         initialValues={{
-          vehicle_type: 'moto',
+          /*           vehicle_type: 'moto',
           vehicle_model: 'asus',
           vehicle_brand: 'asus',
           year_manufacture_vehicle: '2024',
@@ -117,9 +119,23 @@ const ContinuarRegistroScreen = ({ navigation }) => {
           policy_soat_number: '12355678',
           soat_expiration_date: '',
           partida_registral: 'partida registral',
+          next_inspection_date: '' */
+          vehicle_type: '',
+          vehicle_model: '',
+          vehicle_brand: '',
+          year_manufacture_vehicle: '',
+          vehicle_color: '',
+          vehicle_plate: '',
+
+          license_number: '',
+          license_expiration_date: '',
+
+          policy_soat_number: '',
+          soat_expiration_date: '',
+          partida_registral: '',
           next_inspection_date: ''
         }}
-        validationSchema={validations.continuarRegistroValidationSchema}
+        // validationSchema={validations.continuarRegistroValidationSchema}
         onSubmit={handleSubmit}
         style={styles.form}>
         {({ handleSubmit, isSubmitting, values, setFieldValue }) => (

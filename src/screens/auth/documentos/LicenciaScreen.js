@@ -25,13 +25,13 @@ const LicenciaScreen = ({ navigation }) => {
     const licence_rear = {
       uri: photo_license_rear.uri,
       name: photo_license_rear.fileName,
-      type: 'image/jpeg'
+      type: photo_license_rear.type
     }
 
     const licence_frontal = {
       uri: photo_license_frontal.uri,
       name: photo_license_frontal.fileName,
-      type: 'image/jpeg'
+      type: photo_license_frontal.type
     }
 
     registroVehicle.append('photo_licence_rear', licence_rear)

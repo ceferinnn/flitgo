@@ -25,7 +25,7 @@ const FotoPerfilScreen = ({ navigation }) => {
     const perfil = {
       uri: photo_person.uri,
       name: photo_person.fileName,
-      type: 'image/jpeg'
+      type: photo_person.type
     }
 
     registroDriver.append('photo_person', perfil)

@@ -32,13 +32,13 @@ const TarjetaPropiedadScreen = ({ navigation }) => {
     const frontal = {
       uri: photo_property_card_frontal.uri,
       name: photo_property_card_frontal.fileName,
-      type: 'image/jpeg'
+      type: photo_property_card_frontal.type
     }
 
     const rear = {
       uri: photo_property_card_rear.uri,
       name: photo_property_card_rear.fileName,
-      type: 'image/jpeg'
+      type: photo_property_card_rear.type
     }
 
     registroVehicle.append('photo_property_card_frontal', frontal)

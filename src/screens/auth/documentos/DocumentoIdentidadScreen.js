@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { View, Text, Image, Alert } from 'react-native'
 import { RegistroContext } from '../../../contexts/RegistroContext'
 import ContainerScroll from '../../../components/containers/ContainerScroll'
@@ -31,12 +31,12 @@ const DocumentoIdentidadScreen = ({ navigation }) => {
     const frontal = {
       uri: photo_document_identity_frontal.uri,
       name: photo_document_identity_frontal.fileName,
-      type: 'image/jpeg'
+      type: photo_document_identity_frontal.type
     }
     const reversa = {
       uri: photo_document_identity_rear.uri,
       name: photo_document_identity_rear.fileName,
-      type: 'image/jpeg'
+      type: photo_document_identity_rear.type
     }
 
     registroDriver.append('photo_document_identity_frontal', frontal)

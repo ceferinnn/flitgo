@@ -1,11 +1,11 @@
 // modeloPlacaValidations.js
-import * as Yup from 'yup';
+import * as Yup from 'yup'
 
 // Validación de dimensiones (largo, ancho, alto)
 const dimensionValidation = Yup.number()
-    .typeError('Debe ser un número')
-    .required('Requerido')
-    .min(0.1, 'Debe ser mayor a 0');
+  .typeError('Debe ser un número')
+  .required('Requerido')
+  .min(0.1, 'Debe ser mayor a 0')
 
 export const modeloPlacaValidationSchema = Yup.object().shape({
   long_useful_space: dimensionValidation,
@@ -13,7 +13,10 @@ export const modeloPlacaValidationSchema = Yup.object().shape({
   height_useful_space: dimensionValidation
 })
 export const initialValues = {
-  long_useful_space: '4.115',
+  /*   long_useful_space: '4.115',
   width_useful_space: '1.7',
-  height_useful_space: '1.475'
+  height_useful_space: '1.475' */
+  long_useful_space: '',
+  width_useful_space: '',
+  height_useful_space: ''
 }

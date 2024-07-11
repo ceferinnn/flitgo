@@ -1,20 +1,20 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import { useField } from 'formik';
+import React from 'react'
+import { View, Text, StyleSheet } from 'react-native'
+import { Picker } from '@react-native-picker/picker'
+import { useField } from 'formik'
 
 const PickerField = ({ name, label, options, style, ...props }) => {
-  const [field, meta, helpers] = useField(name);
+  const [field, meta, helpers] = useField(name)
 
   return (
-    <View style={{flex: 1, marginTop: 5}}>
+    <View style={{ flex: 1, marginTop: 5 }}>
       {label && <Text style={styles.label}>{label}</Text>}
 
       <View
         style={[
           styles.pickerContainer,
           meta.error && meta.touched ? styles.inputError : null,
-          style,
+          style
         ]}>
         <Picker
           selectedValue={field.value}
@@ -22,8 +22,8 @@ const PickerField = ({ name, label, options, style, ...props }) => {
           {...props}>
           <Picker.Item
             // style={{color: '#222'}}
-            label="Seleccione una opción"
-            value=""
+            label='Seleccione una opción'
+            value=''
           />
           {options.map(option => (
             <Picker.Item
@@ -40,31 +40,32 @@ const PickerField = ({ name, label, options, style, ...props }) => {
         <Text style={styles.errorText}>{meta.error}</Text>
       )}
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginBottom: 5,
-    color:"#222"
+    color: '#222'
   },
-  pickerContainer: { // Estilos por defecto del TextInputField
+  pickerContainer: {
+    // Estilos por defecto del TextInputField
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
-    paddingHorizontal:10,
-    paddingVertical:0,
+    paddingHorizontal: 10,
+    paddingVertical: 0,
     justifyContent: 'center',
-    height:40,
+    height: 40
   },
   inputError: {
-    borderColor: 'red',
+    borderColor: 'red'
   },
   errorText: {
     color: 'red',
-    fontSize: 12,
-  },
-});
+    fontSize: 12
+  }
+})
 
-export default PickerField;
+export default PickerField

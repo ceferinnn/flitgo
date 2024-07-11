@@ -65,7 +65,7 @@ const ModeloPlacaScreen = ({ navigation }) => {
     <ContainerScroll>
       <FormikForm
         initialValues={validations.initialValues}
-        // validationSchema={validations.continuarRegistroValidationSchema}
+        validationSchema={validations.continuarRegistroValidationSchema}
         onSubmit={handleSubmit}
         style={styles.form}>
         {({ handleSubmit, isSubmitting }) => (

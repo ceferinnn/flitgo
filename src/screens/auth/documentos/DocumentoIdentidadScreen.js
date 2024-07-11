@@ -40,6 +40,7 @@ const DocumentoIdentidadScreen = ({ navigation }) => {
     }
 
     registroDriver.append('photo_document_identity_frontal', frontal)
+    
     registroDriver.append('photo_document_identity_rear', reversa)
 
     /*  const documentoData = {

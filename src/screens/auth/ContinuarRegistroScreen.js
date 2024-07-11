@@ -9,93 +9,20 @@ import FormikForm from '../../components/forms/FormikForm'
 import * as validations from './validations/ContinuarRegistro'
 import { RegistroContext } from '../../contexts/RegistroContext'
 import { FechaComponent } from '../../components/FechaComponent'
-import { API_URL } from '../../constants'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import axios from 'axios'
-import { handleAxiosError } from '../../utils/errors'
 
 const ContinuarRegistroScreen = ({ navigation }) => {
-  const { registroVehicle, registroDriver } = useContext(RegistroContext)
+  const { register } = useContext(RegistroContext)
   const [showDatePickerLicencia, setShowDatePickerLicencia] = useState(false)
   const [showDatePickerSoat, setShowDatePickerSoat] = useState(false)
   const [showDatePickerInspeccion, setShowDatePickerInspeccion] =
     useState(false)
 
-  const handleSubmit = async (values, { setSubmitting }) => {
-    //* Driver
-    registroDriver.append('license_number', values.license_number)
-    registroDriver.append(
-      'license_expiration_date',
-      values.license_expiration_date
-    )
-    registroDriver.append('type_file_police_records', 'pdf_jpg')
-
-    //* Vehicle
-    registroVehicle.append('vehicle_type', values.vehicle_type)
-    registroVehicle.append('vehicle_model', values.vehicle_model)
-    registroVehicle.append('vehicle_brand', values.vehicle_brand)
-    registroVehicle.append(
-      'year_manufacture_vehicle',
-      values.year_manufacture_vehicle
-    )
-    registroVehicle.append('vehicle_color', values.vehicle_color)
-    registroVehicle.append('vehicle_plate', values.vehicle_plate)
-    registroVehicle.append('type_file_soat', 'pdf_jpg')
-    registroVehicle.append('policy_soat_number', values.policy_soat_number)
-    registroVehicle.append('soat_expiration_date', values.soat_expiration_date)
-    registroVehicle.append('partida_registral', values.partida_registral)
-    registroVehicle.append('next_inspection_date', values.next_inspection_date)
-
+  const onSubmit = async (values, { setSubmitting }) => {
     try {
       setSubmitting(true)
-
-      const token = await AsyncStorage.getItem('token')
-
-      if (!token) {
-        console.log('Token no proveido')
-        return
-      }
-
-      /*       const response = await axios.post(
-        API_URL + '/api/user/delivery/vehicle',
-        registroDriver,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-      )
-      console.log(response) */
-
-      await Promise.allSettled([
-        axios.post(API_URL + '/api/user/delivery/vehicle', registroVehicle, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-          }
-        }),
-        axios.post(API_URL + '/api/user/delivery/information', registroDriver, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-          }
-        })
-      ])
-        .then(response =>
-          response.map(res => {
-            if (res.status === 'fulfilled') {
-              console.log('Registro Exitoso')
-              navigation.navigate('Home')
-            } else {
-              console.log('error', res.reason + res.status)
-            }
-          })
-        )
-        .catch(err => console.log(err))
+      await register(values)
     } catch (error) {
-      const hasError = handleAxiosError({ error })
-      console.log(hasError)
+      console.log(error)
       Alert.alert('Error', 'Ocurrió un error inesperado. Inténtalo de nuevo.')
     } finally {
       setSubmitting(false)
@@ -106,7 +33,7 @@ const ContinuarRegistroScreen = ({ navigation }) => {
     <ScrollView contentContainerStyle={styles.container}>
       <FormikForm
         initialValues={{
-          /*           vehicle_type: 'moto',
+          vehicle_type: 'moto',
           vehicle_model: 'asus',
           vehicle_brand: 'asus',
           year_manufacture_vehicle: '2024',
@@ -119,8 +46,8 @@ const ContinuarRegistroScreen = ({ navigation }) => {
           policy_soat_number: '12355678',
           soat_expiration_date: '',
           partida_registral: 'partida registral',
-          next_inspection_date: '' */
-          vehicle_type: '',
+          next_inspection_date: ''
+          /* vehicle_type: '',
           vehicle_model: '',
           vehicle_brand: '',
           year_manufacture_vehicle: '',
@@ -133,10 +60,10 @@ const ContinuarRegistroScreen = ({ navigation }) => {
           policy_soat_number: '',
           soat_expiration_date: '',
           partida_registral: '',
-          next_inspection_date: ''
+          next_inspection_date: '' */
         }}
-        // validationSchema={validations.continuarRegistroValidationSchema}
-        onSubmit={handleSubmit}
+        validationSchema={validations.continuarRegistroValidationSchema}
+        onSubmit={onSubmit}
         style={styles.form}>
         {({ handleSubmit, isSubmitting, values, setFieldValue }) => (
           <>

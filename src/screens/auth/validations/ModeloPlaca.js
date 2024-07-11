@@ -13,10 +13,7 @@ export const modeloPlacaValidationSchema = Yup.object().shape({
   height_useful_space: dimensionValidation
 })
 export const initialValues = {
-  /*   long_useful_space: '4.115',
+  long_useful_space: '4.115',
   width_useful_space: '1.7',
-  height_useful_space: '1.475' */
-  long_useful_space: '',
-  width_useful_space: '',
-  height_useful_space: ''
+  height_useful_space: '1.475'
 }

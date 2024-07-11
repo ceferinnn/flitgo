@@ -5,15 +5,15 @@ import { AuthProvider } from './src/contexts/AuthContext'
 import { RegistroProvider } from './src/contexts/RegistroContext' // Importa tu RegistroProvider
 
 const App = () => {
-	return (
-		<RegistroProvider>
-			<AuthProvider>
-				<NavigationContainer>
-					<AppNavigator />
-				</NavigationContainer>
-			</AuthProvider>
-		</RegistroProvider>
-	)
+  return (
+    <AuthProvider>
+      <RegistroProvider>
+        <NavigationContainer>
+          <AppNavigator />
+        </NavigationContainer>
+      </RegistroProvider>
+    </AuthProvider>
+  )
 }
 
 export default App

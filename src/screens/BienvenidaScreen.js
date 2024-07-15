@@ -38,7 +38,7 @@ const BienvenidaScreen = ({ navigation }) => {
       type: user?.delivery_data?.completed_training,
       typeState: 'completed_training',
       icon: 'school',
-      screen: 'Inicio'
+      screen: 'Capacitación virtual'
     },
     {
       id: 4,
@@ -46,7 +46,7 @@ const BienvenidaScreen = ({ navigation }) => {
       type: user?.delivery_data?.completed_assessment,
       typeState: 'completed_assessment',
       icon: 'assignment',
-      screen: 'Inicio'
+      screen: 'Examen'
     }
   ]
 

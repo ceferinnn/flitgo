@@ -1,12 +1,53 @@
 // Archivo: screens/informacion/DocumentoRequisitosScreen.js
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native'
+import { API_URL } from '../../../constants'
+import CapacitacionComponent from '../../../components/capacitacion/CapacitacionComponent'
 
 const CapacitacionVirtualScreen = () => {
+  const [videos, setVideos] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  const getVideos = async () => {
+    try {
+      setLoading(true)
+
+      const token = await AsyncStorage.getItem('token')
+
+      if (!token) return
+
+      const { data: response } = await axios.get(
+        API_URL + '/api/user/delivery/training',
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+
+      const { data } = response
+      const { trainings } = data
+      setVideos(trainings)
+    } catch (error) {
+      console.log(error)
+      Alert.alert('Error', 'Error intentelo mas tarde')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    getVideos()
+  }, [])
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Capacitación virtual</Text>
-    </View>
+    <>
+      {loading ? (
+        <View style={styles.container}>
+          <ActivityIndicator color='blue' size='small' />
+        </View>
+      ) : (
+        <CapacitacionComponent videos={videos} />
+      )}
+    </>
   )
 }
 

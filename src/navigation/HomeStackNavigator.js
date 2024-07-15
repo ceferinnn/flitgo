@@ -201,7 +201,7 @@ const HomeStackNavigator = () => {
           )
         }}
       />
-     <Stack.Screen
+      <Stack.Screen
         name='FotoPerfil'
         component={FotoPerfilScreen}
         options={{
@@ -209,7 +209,7 @@ const HomeStackNavigator = () => {
             <Header headerModel='Model1' title='Adjunte su Foto de Perfil' />
           )
         }}
-      /> 
+      />
     </Stack.Navigator>
   )
 }

@@ -1,7 +1,11 @@
 import React from 'react';
-import { Pressable, Text, StyleSheet,ActivityIndicator, TouchableOpacity } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity
+} from 'react-native'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const Button = ({

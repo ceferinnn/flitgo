@@ -134,7 +134,7 @@ const BienvenidaScreen = ({ navigation }) => {
 							disabled={
 								requisito.type === typeStatus.accepted ||
 								requisito.type === typeStatus.in_progress
-								//  || requisito.type === typeStatus.denied
+								//  || requisito.type === typeStatus.denie
 							}
 							onPress={() => navigation.navigate(requisito.screen)}
 							key={requisito.id}
